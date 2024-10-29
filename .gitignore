@@ -1,0 +1,13 @@
+.idea
+.DS_Store
+.php_cs.cache
+.php-cs-fixer.cache
+
+vendor/
+composer.lock
+
+/tests/*.log
+/tests/README.md
+.env
+
+/public

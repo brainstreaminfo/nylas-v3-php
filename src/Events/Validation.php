@@ -3,7 +3,7 @@
 namespace Nylas\Events;
 
 use DateTimeZone;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 class Validation
 {
@@ -31,9 +31,9 @@ class Validation
             V::keyOptional('updated_before', V::intType()),
             V::keyOptional('updated_after', V::intType()),
             V::keyOptional('attendees', V::stringType()),
-            V::keyOptional('event_type', V::in(['default','outOfOffice', 'focusTime', 'workingLocation'])),
+            V::keyOptional('event_type', V::in(['default', 'outOfOffice', 'focusTime', 'workingLocation'])),
             V::keyOptional('select', V::stringType()),
-            V::keyOptional('expand_recurring', V::boolType()),
+            V::keyOptional('expand_recurring', V::boolType())
         );
     }
 
@@ -42,7 +42,7 @@ class Validation
         return V::keySet(
             V::key('calendar_id', V::stringType()::notEmpty()),
             V::keyOptional('notify_participants', V::boolType()),
-            V::keyOptional('select', V::stringType()),
+            V::keyOptional('select', V::stringType())
         );
     }
 
@@ -52,7 +52,7 @@ class Validation
             V::keyOptional('busy', V::boolType()),
             V::keyOptional('capacity', V::intType()),
             V::keyOptional('conferencing', self::conferenceRules()),
-            V::keyOptional('description', V::stringType()::length(max: 8192)),
+            V::keyOptional('description', V::stringType()::length(null, 8192)),
             V::keyOptional('hide_participants', V::boolType()),
             V::keyOptional('location', V::stringType()),
             V::keyOptional('metadata', self::metadataRules()),
@@ -60,9 +60,9 @@ class Validation
             V::keyOptional('resources', self::resourceRules()),
             V::keyOptional('recurrence', self::recurrenceRules()),
             V::keyOptional('reminders', self::remindersRules()),
-            V::keyOptional('title', V::stringType()::length(max: 1024)),
+            V::keyOptional('title', V::stringType()::length(null, 1024)),
             V::keyOptional('visibility', V::in(['public', 'private'])),
-            V::key('when', self::whenRules()),
+            V::key('when', self::whenRules())
         );
     }
 
@@ -72,7 +72,7 @@ class Validation
             V::keyOptional('busy', V::boolType()),
             V::keyOptional('capacity', V::intType()),
             V::keyOptional('conferencing', self::conferenceRules()),
-            V::keyOptional('description', V::stringType()::length(max: 8192)),
+            V::keyOptional('description', V::stringType()::length(null, 8192)),
             V::keyOptional('hide_participants', V::boolType()),
             V::keyOptional('location', V::stringType()),
             V::keyOptional('metadata', self::metadataRules()),
@@ -80,20 +80,20 @@ class Validation
             V::keyOptional('resources', self::resourceRules()),
             V::keyOptional('recurrence', self::recurrenceRules()),
             V::keyOptional('reminders', self::remindersRules()),
-            V::keyOptional('title', V::stringType()::length(max: 1024)),
+            V::keyOptional('title', V::stringType()::length(null, 1024)),
             V::keyOptional('visibility', V::in(['public', 'private'])),
             V::keyOptional('when', self::whenRules()),
             V::keyOptional('status', V::in(['confirmed', 'cancelled', 'maybe'])),
-            V::keyOptional('updated_at', V::intType()),
+            V::keyOptional('updated_at', V::intType())
         );
     }
 
     private static function whenRules(): V
     {
         // https://en.wikipedia.org/wiki/ISO_8601#Calendar_dates
-        $dates = V::anyOf(V::date('Y-m'), V::date('Ymd'), V::date('Y-m-d'));
+        $dates = V::oneOf(V::date('Y-m'), V::date('Ymd'), V::date('Y-m-d'));
 
-        return V::anyOf(
+        return V::oneOf(
             // date
             V::keySet(V::keyOptional('date', $dates)),
 
@@ -115,7 +115,7 @@ class Validation
                 V::keyOptional('start_time', V::timestampType()),
                 V::keyOptional('end_timezone', V::in(DateTimeZone::listIdentifiers())),
                 V::keyOptional('start_timezone', V::in(DateTimeZone::listIdentifiers()))
-            ),
+            )
         );
     }
 
@@ -123,10 +123,10 @@ class Validation
     {
         return V::keySet(
             V::keyOptional('use_default', V::boolType()),
-            V::keyOptional('overrides', V::simpleArray(V::keySet(
+            V::keyOptional('overrides', V::arrayVal()->each(V::keySet(
                 V::keyOptional('reminder_minutes', V::intType()),
-                V::keyOptional('reminder_method', V::in(['popup', 'email', 'display', 'sound'])),
-            ))),
+                V::keyOptional('reminder_method', V::in(['popup', 'email', 'display', 'sound']))
+            )))
         );
     }
 
@@ -137,9 +137,9 @@ class Validation
 
     private static function resourceRules(): V
     {
-        return V::simpleArray(V::keySet(
+        return V::arrayVal()->each(V::keySet(
             V::key('email', V::email()),
-            V::keyOptional('name', V::stringType()),
+            V::keyOptional('name', V::stringType())
         ));
     }
 
@@ -147,7 +147,7 @@ class Validation
     {
         $autoCreate = V::keySet(
             V::key('provider', V::in(['Google Meet', 'Zoom Meeting', 'Microsoft Teams'])),
-            V::key('autocreate', V::objectType()),
+            V::key('autocreate', V::objectType())
         );
 
         $webEx = V::keySet(
@@ -164,7 +164,7 @@ class Validation
             V::key('details', V::keySet(
                 V::keyOptional('meeting_code', V::stringType()),
                 V::keyOptional('password', V::stringType()),
-                V::keyOptional('url', V::stringType()),
+                V::keyOptional('url', V::stringType())
             ))
         );
 
@@ -172,37 +172,34 @@ class Validation
             V::key('provider', V::equals('GoToMeeting')),
             V::key('details', V::keySet(
                 V::keyOptional('meeting_code', V::stringType()),
-                V::keyOptional('phone', V::simpleArray()),
-                V::keyOptional('url', V::stringType()),
+                V::keyOptional('phone', V::arrayVal()->each()),
+                V::keyOptional('url', V::stringType())
             ))
         );
 
         $googleMeet = V::keySet(
             V::key('provider', V::equals('Google Meet')),
             V::key('details', V::keySet(
-                V::keyOptional('phone', V::simpleArray()),
+                V::keyOptional('phone', V::arrayVal()->each()),
                 V::keyOptional('pin', V::stringType()),
-                V::keyOptional('url', V::stringType()),
+                V::keyOptional('url', V::stringType())
             ))
         );
 
-        return V::anyOf($autoCreate, $webEx, $zoomMeeting, $goToMeeting, $googleMeet);
+        return V::oneOf($autoCreate, $webEx, $zoomMeeting, $goToMeeting, $googleMeet);
     }
 
     private static function metadataRules(): V
     {
-        return V::callback(static function (mixed $input): bool
-        {
-            if (!is_array($input) || count($input) > 50)
-            {
+        return V::callback(static function ($input): bool {
+            if (!is_array($input) || count($input) > 50) {
                 return false;
             }
 
             $keys = array_keys($input);
             $isOk = V::each(V::stringType()::length(1, 40))->validate($keys);
 
-            if (!$isOk)
-            {
+            if (!$isOk) {
                 return false;
             }
 
@@ -213,11 +210,11 @@ class Validation
 
     private static function participantsRules(): V
     {
-        return V::simpleArray(V::keySet(
+        return V::arrayVal()->each(V::keySet(
             V::keyOptional('comment', V::stringType()),
             V::key('email', V::email()),
             V::keyOptional('name', V::stringType()),
-            V::keyOptional('phone_number', V::phone()),
+            V::keyOptional('phone_number', V::phone())
         ));
     }
 }

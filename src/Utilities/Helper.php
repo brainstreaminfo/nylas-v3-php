@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Utilities;
 
@@ -94,9 +94,10 @@ class Helper
         foreach ($params['attachments'] as $i => $attachment) {
             $contents = $attachment['content'];
 
-            if (is_string($attachment['content']) && file_exists($attachment['content'])) {
+            //ref:adbrain changes done below as we are directly passing base64 content of file attached
+            /*if (is_string($attachment['content']) && file_exists($attachment['content'])) {
                 $contents = fopen($attachment['content'], 'rb');
-            }
+            }*/
 
             $name = !empty($attachment['content_id']) ? $attachment['content_id'] : sprintf('file%s', $i);
             $multipart[] = [

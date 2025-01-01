@@ -37,7 +37,7 @@ class AttachmentsTest extends AbsCase
                 $attachmentId,
                 $messageId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('id', $response['data']);
     }
@@ -56,7 +56,7 @@ class AttachmentsTest extends AbsCase
                 $attachmentId,
                 $messageId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }

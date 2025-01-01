@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Tests;
 
-use function json_encode;
-
 use Exception;
-use JsonException;
-use Tests\AbsCase;
+//use JsonException;
+use function json_encode;
 
 /**
  * Signature Test
@@ -22,19 +20,21 @@ class SignatureTest extends AbsCase
         $this->assertPassed();
     }
 
+    /**
+     * @expectedException Exception
+     */
     public function testGetNotification(): void
     {
-        $this->expectException(Exception::class);
+        //$this->expectException(Exception::class);
 
         $this->client->Webhooks->Signature->getNotification();
     }
 
     /**
-     * @throws JsonException
      */
     public function testParseNotification(): void
     {
-        $params = json_encode(['deltas' => ['aaa' => 'bbb']], JSON_THROW_ON_ERROR);
+        $params = json_encode(['deltas' => ['aaa' => 'bbb']]);
 
         $data = $this->client->Webhooks->Signature->parseNotification($params);
 

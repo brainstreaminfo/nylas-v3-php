@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Contacts;
 
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * Nylas Contacts
@@ -26,7 +26,7 @@ class Validation
             V::keyOptional('phone_number', V::stringType()),
             V::keyOptional('source', V::in(['address_book', 'domain', 'inbox'])),
             V::keyOptional('group', V::stringType()),
-            V::keyOptional('recurse', V::stringType()),
+            V::keyOptional('recurse', V::stringType())
         );
     }
 
@@ -42,12 +42,12 @@ class Validation
             V::keyOptional('company_name', V::stringType()),
             self::contactEmailsRules(),
             V::key('given_name', V::stringType()::notEmpty()),
-            V::keyOptional('groups', V::simpleArray(
+            V::keyOptional('groups', V::arrayVal()->each(
                 V::keySet(
-                    V::key('id', V::stringType()::notEmpty()),
+                    V::key('id', V::stringType()::notEmpty())
                 )
             )),
-            V::keyOptional('im_addresses', V::simpleArray(
+            V::keyOptional('im_addresses', V::arrayVal()->each(
                 V::keySet(
                     V::key('im_address', V::stringType()::notEmpty()),
                     V::keyOptional('type', V::stringType())
@@ -65,7 +65,7 @@ class Validation
             V::keyOptional('source', V::in(['address_book', 'domain', 'inbox'])),
             V::keyOptional('suffix', V::stringType()),
             V::keyOptional('surname', V::stringType()),
-            self::contactWebPageRules(), // web_pages
+            self::contactWebPageRules() // web_pages
         );
     }
 
@@ -76,10 +76,10 @@ class Validation
      */
     private static function contactEmailsRules(): V
     {
-        return V::keyOptional('emails', V::simpleArray(
+        return V::keyOptional('emails', V::arrayVal()->each(
             V::keySet(
                 V::key('type', V::in(['work', 'home', 'other'])),
-                V::key('email', V::stringType()::notEmpty()::length(max: 255)),
+                V::key('email', V::stringType()::notEmpty()::length(null, 255))
             )
         ));
     }
@@ -91,10 +91,10 @@ class Validation
      */
     private static function contactWebPageRules(): V
     {
-        return V::keyOptional('web_pages', V::simpleArray(
+        return V::keyOptional('web_pages', V::arrayVal()->each(
             V::keySet(
                 V::key('url', V::stringType()::notEmpty()),   // a free-form string
-                V::key('type', V::in(['work', 'home', 'other'])),
+                V::key('type', V::in(['work', 'home', 'other']))
             )
         ));
     }
@@ -106,10 +106,10 @@ class Validation
      */
     private static function contactImAddressRules(): V
     {
-        return V::keyOptional('im_addresses', V::simpleArray(
+        return V::keyOptional('im_addresses', V::arrayVal()->each(
             V::keySet(
                 V::key('im_address', V::stringType()::notEmpty()),  // a free-form string
-                V::keyOptional('type', V::stringType()),
+                V::keyOptional('type', V::stringType())
             )
         ));
     }
@@ -121,10 +121,10 @@ class Validation
      */
     private static function contactPhoneNumberRules(): V
     {
-        return V::keyOptional('phone_numbers', V::simpleArray(
+        return V::keyOptional('phone_numbers', V::arrayVal()->each(
             V::keySet(
                 V::key('number', V::stringType()::notEmpty()), // a free-form string
-                V::keyOptional('type', V::in(['work', 'home', 'other'])),
+                V::keyOptional('type', V::in(['work', 'home', 'other']))
             )
         ));
     }
@@ -136,14 +136,14 @@ class Validation
      */
     private static function contactPhysicalAddressRules(): V
     {
-        return V::keyOptional('physical_addresses', V::simpleArray(
+        return V::keyOptional('physical_addresses', V::arrayVal()->each(
             V::keySet(
                 V::keyOptional('street_address', V::stringType()::notEmpty()),
                 V::keyOptional('postal_code', V::stringType()::notEmpty()),
                 V::keyOptional('state', V::stringType()::notEmpty()),
                 V::keyOptional('country', V::stringType()::notEmpty()),
                 V::keyOptional('city', V::stringType()::notEmpty()),
-                V::keyOptional('type', V::in(['work', 'home', 'other'])),
+                V::keyOptional('type', V::in(['work', 'home', 'other']))
             )
         ));
     }

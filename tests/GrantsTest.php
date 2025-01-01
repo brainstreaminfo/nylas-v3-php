@@ -1,14 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Tests;
 
 use GuzzleHttp\Exception\GuzzleException;
-use JsonException;
+//use JsonException;
 use Nylas\Exceptions\NotFoundException;
 use Nylas\Utilities\API;
-use PHPUnit\Framework\Attributes\Depends;
+//ref:adbrain rem , below line not needed any more as we use annotation for it
+//use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Grants Test
@@ -17,7 +18,6 @@ class GrantsTest extends AbsCase
 {
     /**
      * @return void
-     * @throws JsonException
      */
     public function testListGrants()
     {
@@ -31,15 +31,19 @@ class GrantsTest extends AbsCase
 
         try {
             $response = $this->client->Administration->Grants->list();
-        }catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
 
-    #[Depends('testListGrants')]
+    //#[Depends('testListGrants')]
+    /**
+     * @depends testListGrants
+     */
     public function testListGrantsByProvider()
     {
-        $this->mockResponse( [
+        $this->mockResponse([
             "request_id" => "5967ca40-a2d8-4ee0-a0e0-6f18ace39a90",
             "data" => [
                 [
@@ -69,12 +73,16 @@ class GrantsTest extends AbsCase
             $response = $this->client->Administration->Grants->list([
                 'provider' => API::$authProvider_google,
             ]);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
 
-    #[Depends('testListGrants')]
+    //#[Depends('testListGrants')]
+    /**
+     * @depends testListGrants
+     */
     public function testGrantById()
     {
         $this->mockResponse([
@@ -88,7 +96,8 @@ class GrantsTest extends AbsCase
             $response = $this->client->Administration->Grants->find(
                 $this->client->Options->getGrantId()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -97,16 +106,18 @@ class GrantsTest extends AbsCase
     {
         try {
             $this->client->Administration->Grants->find('invalid-grant-id-fdgdfgg');
-        } catch (NotFoundException|GuzzleException $e) {
+        } catch (\Exception $e) {
             $this->assertEquals('404', $e->getCode());
         }
     }
 
     /**
      * @return void
-     * @throws JsonException
      */
-    #[Depends('testListGrants')]
+    //#[Depends('testListGrants')]
+    /**
+     * @depends testListGrants
+     */
     public function testUpdateGrant()
     {
         $this->mockResponse([
@@ -116,7 +127,7 @@ class GrantsTest extends AbsCase
         ]);
 
         $params = [
-            'scope'=> [
+            'scope' => [
                 'Mail.Read',
                 'User.Read',
                 'test'
@@ -129,7 +140,8 @@ class GrantsTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $params
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -145,7 +157,8 @@ class GrantsTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Administration->Grants->getCurrentGrant('token-123');
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -160,7 +173,8 @@ class GrantsTest extends AbsCase
         try {
             $grantId = $this->faker->uuid;
             $response = $this->client->Administration->Grants->delete($grantId);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertArrayHasKey('request_id', $response);
     }

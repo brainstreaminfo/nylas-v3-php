@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Helper;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * Draft api
@@ -15,10 +15,15 @@ use Nylas\Utilities\Validator as V;
 class Draft
 {
     /**
+     * Manage constructor.
+     *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -118,7 +123,7 @@ class Draft
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('draftId', V::stringType()::notEmpty()),
+                V::key('draftId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId,
@@ -148,7 +153,7 @@ class Draft
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('draftId', V::stringType()::notEmpty()),
+                V::key('draftId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId,
@@ -203,7 +208,7 @@ class Draft
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('draftId', V::stringType()::notEmpty()),
+                V::key('draftId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId,
@@ -232,7 +237,7 @@ class Draft
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('draftId', V::stringType()::notEmpty()),
+                V::key('draftId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId,

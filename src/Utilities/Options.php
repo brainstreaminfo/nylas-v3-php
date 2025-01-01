@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Utilities;
 
@@ -10,7 +10,7 @@ use function is_resource;
 
 use Nylas\Request\Sync;
 use Nylas\Request\Async;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * Nylas Utils Options
@@ -20,49 +20,49 @@ class Options
     /**
      * @var mixed
      */
-    private mixed $logFile;
+    private $logFile;
 
     /**
      * @var null|callable
      */
-    private mixed $handler;
+    private $handler;
 
     /**
      * @var bool
      */
-    private bool $debug = false;
+    private $debug = false;
 
     /**
      * @var string
      */
-    private string $server;
+    private  $server;
 
     /**
      * @var string
      */
-    private string $region;
+    private  $region;
 
     /**
      * @var string
      */
-    private string $apiKey;
+    private  $apiKey;
 
     /**
      * @var string
      */
-    private string $clientId;
+    private  $clientId;
 
     /**
      * @var string
      */
-    private string $grantId;
+    private  $grantId;
 
     /**
      * Options constructor.
      *
      * @param array $options
      */
-    public function __construct(array $options)
+    public function __construct($options)
     {
         V::doValidate(V::keySet(
             V::key('api_key', V::stringType()::notEmpty()),
@@ -70,7 +70,7 @@ class Options
             V::keyOptional('region', V::in(['us', 'eu'])),
             V::keyOptional('log_file', $this->getLogFileRule()),
             V::keyOptional('client_id', V::stringType()),
-            V::keyOptional('grant_id', V::stringType()),
+            V::keyOptional('grant_id', V::stringType())
         ), $options);
 
         $this->region = $options['region'] ?? 'us';
@@ -97,6 +97,11 @@ class Options
     public function getGrantId(): string
     {
         return $this->grantId;
+    }
+
+    public function setGrantId(string $grantId): void
+    {
+        $this->grantId = $grantId;
     }
 
     /**
@@ -160,10 +165,9 @@ class Options
      * @param mixed $logFile
      * @return void
      */
-    public function setLogFile(mixed $logFile): void
+    public function setLogFile($logFile): void
     {
-        if ($logFile !== null)
-        {
+        if ($logFile !== null) {
             V::doValidate($this->getLogFileRule(), $logFile);
         }
 
@@ -243,12 +247,12 @@ class Options
     public function getAllOptions(): array
     {
         return
-        [
-            'debug'         => $this->debug,
-            'log_file'      => $this->logFile,
-            'api_key'       => $this->apiKey,
-            'client_id'     => $this->clientId,
-        ];
+            [
+                'debug'         => $this->debug,
+                'log_file'      => $this->logFile,
+                'api_key'       => $this->apiKey,
+                'client_id'     => $this->clientId,
+            ];
     }
 
     /**
@@ -295,15 +299,17 @@ class Options
     /**
      * get logger handler
      *
-     * @return mixed
      */
-    private function getLoggerHandler(): mixed
+    private function getLoggerHandler()
     {
-        return match (true) {
-            is_string($this->logFile)   => fopen($this->logFile, 'ab'),
-            is_resource($this->logFile) => $this->logFile,
+        if (is_string($this->logFile)) {
+            return fopen($this->logFile, 'ab');
+        }
 
-            default => $this->debug,
-        };
+        if (is_resource($this->logFile)) {
+            return $this->logFile;
+        }
+
+        return $this->debug;
     }
 }

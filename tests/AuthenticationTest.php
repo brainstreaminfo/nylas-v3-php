@@ -1,10 +1,11 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Tests;
 
 use GuzzleHttp\Exception\GuzzleException;
-use JsonException;
+//use JsonException;
 use Nylas\Utilities\API;
 
 /**
@@ -14,7 +15,6 @@ class AuthenticationTest extends AbsCase
 {
     /**
      * @return void
-     * @throws JsonException
      */
     public function testUrlForOauth2()
     {
@@ -23,12 +23,12 @@ class AuthenticationTest extends AbsCase
         $response = $this->client->Administration->Authentication->urlForOauth2($params);
 
         $this->assertNotEmpty($response);
-        $this->assertIsString($response);
+        //$this->assertIsString($response);
+        $this->assertTrue(is_string($response));
     }
-    
+
     /**
      * @return void
-     * @throws JsonException
      */
     public function testCodeExchangeToken()
     {
@@ -44,13 +44,13 @@ class AuthenticationTest extends AbsCase
 
         try {
             $response = $this->client->Administration->Authentication->exchangeCodeForToken($data);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['access_token']);
     }
     /**
      * @return void
-     * @throws JsonException
      */
     public function testExchangeCodeForTokenWithPKCE()
     {
@@ -67,14 +67,14 @@ class AuthenticationTest extends AbsCase
 
         try {
             $response = $this->client->Administration->Authentication->exchangeCodeForTokenWithPKCE($data);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['access_token']);
     }
 
     /**
      * @return void
-     * @throws JsonException
      */
     public function testAuthenticateUserWithPKCE()
     {
@@ -82,7 +82,8 @@ class AuthenticationTest extends AbsCase
             $this->prepareHostedAuthorization(true)
         );
         $this->assertNotEmpty($response);
-        $this->assertIsString($response);
+        //$this->assertIsString($response);
+        $this->assertTrue(is_string($response));
     }
 
     private function prepareHostedAuthorization(bool $hasPKCE = false): array
@@ -132,7 +133,8 @@ class AuthenticationTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Administration->Authentication->customAuthentication($params);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response);
     }
@@ -149,7 +151,8 @@ class AuthenticationTest extends AbsCase
                 'refresh_token' => 'test-123',
                 'client_secret' => 'test-123',
             ]);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response);
     }
@@ -162,7 +165,8 @@ class AuthenticationTest extends AbsCase
                 'provider' => API::$authProvider_microsoft,
                 'credential_id' => $this->faker->uuid(),
             ]);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response);
     }
@@ -178,7 +182,8 @@ class AuthenticationTest extends AbsCase
             $response = $this->client->Administration->Authentication->revokeAccessTokens([
                 'token' => $this->faker->uuid(),
             ]);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response);
     }
@@ -193,7 +198,8 @@ class AuthenticationTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Administration->Authentication->idTokenInfo($fakeId);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response);
     }
@@ -208,7 +214,8 @@ class AuthenticationTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Administration->Authentication->accessTokenInfo($fakeId);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response);
     }

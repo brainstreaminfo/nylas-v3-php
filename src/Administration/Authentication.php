@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Administration;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 use function http_build_query;
 use function trim;
@@ -18,12 +18,15 @@ use function trim;
 class Authentication
 {
     /**
-     * Authentication constructor.
+     * Manage constructor.
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -48,9 +51,9 @@ class Authentication
         }
 
         $query  = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
-        $apiUrl = trim($this->options->getServer(), '/').API::LIST['oAuthAuthorize'];
+        $apiUrl = trim($this->options->getServer(), '/') . API::LIST['oAuthAuthorize'];
 
-        return trim($apiUrl, '/').'?'.$query;
+        return trim($apiUrl, '/') . '?' . $query;
     }
 
     /**
@@ -67,7 +70,7 @@ class Authentication
             V::keySet(
                 V::key('code', V::stringType()::notEmpty()),
                 V::key('redirect_uri', V::stringType()::notEmpty()),
-                V::keyOptional('client_secret', V::stringType()),
+                V::keyOptional('client_secret', V::stringType())
             ),
             $params
         );
@@ -110,9 +113,9 @@ class Authentication
         }
 
         $query  = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
-        $apiUrl = trim($this->options->getServer(), '/').API::LIST['oAuthAuthorize'];
+        $apiUrl = trim($this->options->getServer(), '/') . API::LIST['oAuthAuthorize'];
 
-        return trim($apiUrl, '/').'?'.$query;
+        return trim($apiUrl, '/') . '?' . $query;
     }
 
     /**
@@ -200,9 +203,9 @@ class Authentication
         $params['response_type'] = 'adminconsent';
 
         $query  = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
-        $apiUrl = trim($this->options->getServer(), '/').API::LIST['oAuthAuthorize'];
+        $apiUrl = trim($this->options->getServer(), '/') . API::LIST['oAuthAuthorize'];
 
-        return trim($apiUrl, '/').'?'.$query;
+        return trim($apiUrl, '/') . '?' . $query;
     }
 
     /**
@@ -213,7 +216,7 @@ class Authentication
      * @return bool - True if the token was revoked successfully
      * @throws GuzzleException
      */
-    public function revokeAccessTokens( array $params): bool
+    public function revokeAccessTokens(array $params): bool
     {
         V::doValidate(
             V::key('token', V::stringType()::notEmpty()),
@@ -299,7 +302,7 @@ class Authentication
                 V::key('provider', V::in(API::$authProviders)),
                 V::key('settings', V::arrayType()),
                 V::keyOptional('state', V::stringType()),
-                V::keyOptional('scope', V::arrayType()::each(V::stringType())),
+                V::keyOptional('scope', V::arrayType()::each(V::stringType()))
             ),
             $params
         );

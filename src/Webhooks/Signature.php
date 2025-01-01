@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Webhooks;
 
@@ -21,12 +21,15 @@ use Nylas\Exceptions\NylasException;
 class Signature
 {
     /**
-     * constructor.
+     * Manage constructor.
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -40,8 +43,7 @@ class Signature
     {
         $challenge = $_GET['challenge'] ?? null;
 
-        if (empty($challenge))
-        {
+        if (empty($challenge)) {
             return;
         }
 
@@ -62,8 +64,7 @@ class Signature
         $vrif = $this->xSignatureVerification($code, $data);
 
         // check if valid
-        if ($vrif === false)
-        {
+        if ($vrif === false) {
             throw new NylasException(null, 'not a valid nylas request');
         }
 
@@ -94,16 +95,16 @@ class Signature
      * @param string $data
      * @return array|string
      */
-    public function parseNotification(string $data): array|string
+    public function parseNotification(string $data)
     {
         try {
-            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-        } catch (Throwable) {
+            $data = json_decode($data, true, 512);
+        } catch (Throwable $e) {
             // when not close the decode error
             if ($this->options->getAllOptions()['debug']) {
                 $msg = 'Unable to parse response body into JSON: ';
 
-                throw new NylasException(null, $msg.json_last_error());
+                throw new NylasException(null, $msg . json_last_error());
             }
         }
 

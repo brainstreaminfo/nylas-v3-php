@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Messages;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * Nylas Smart Compose mail
@@ -16,12 +16,15 @@ use Nylas\Utilities\Validator as V;
 class SmartCompose
 {
     /**
-     * Contact constructor.
+     * Manage constructor.
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -43,7 +46,7 @@ class SmartCompose
         );
 
         V::doValidate(
-            V::key('prompt', V::stringType()::notEmpty()::length(max: 1000)),
+            V::key('prompt', V::stringType()::notEmpty()::length(null, 1000)),
             [
                 'prompt' => $prompt
             ]
@@ -81,7 +84,7 @@ class SmartCompose
         );
 
         V::doValidate(
-            V::key('prompt', V::stringType()::notEmpty()::length(max: 1000)),
+            V::key('prompt', V::stringType()::notEmpty()::length(null, 1000)),
             [
                 'prompt' => $prompt
             ]

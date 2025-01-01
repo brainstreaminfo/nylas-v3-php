@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Utilities;
 
@@ -17,7 +17,7 @@ class API
      */
     public const SERVER = [
         'us'    => 'https://api.us.nylas.com',
-        'eu'    => 'https://api.eu.nylas.com',
+        'eu'    => 'https://api.eu.nylas.com'
     ];
 
     /**
@@ -26,14 +26,14 @@ class API
      */
     public const SERVER_SCHEDULER = [
         'us'    => 'https://api.schedule.nylas.com',
-        'eu'    => 'https://ireland.api.schedule.nylas.com',
+        'eu'    => 'https://ireland.api.schedule.nylas.com'
     ];
 
     /**
      * Supported providers in v3
      * @see https://developer.nylas.com/docs/dev-guide/provider-guides/supported-providers/#supported-providers-in-v3
      */
-    public static array $authProviders = [
+    public static $authProviders = [
         'google',
         'icloud',
         'imap',
@@ -41,19 +41,19 @@ class API
         'virtual-calendar',
         'yahoo',
         'ews',
-        'zoom',
+        'zoom'
     ];
 
-    public static string $authProvider_google           = 'google';
-    public static string $authProvider_icloud           = 'icloud';
-    public static string $authProvider_imap             = 'imap';
-    public static string $authProvider_microsoft        = 'microsoft';
-    public static string $authProvider_virtual_calendar = 'virtual-calendar';
-    public static string $authProvider_yahoo            = 'yahoo';
-    public static string $authProvider_ews              = 'ews';
-    public static string $authProvider_zoom             = 'zoom';
+    public static $authProvider_google           = 'google';
+    public static $authProvider_icloud           = 'icloud';
+    public static $authProvider_imap             = 'imap';
+    public static $authProvider_microsoft        = 'microsoft';
+    public static $authProvider_virtual_calendar = 'virtual-calendar';
+    public static $authProvider_yahoo            = 'yahoo';
+    public static $authProvider_ews              = 'ews';
+    public static $authProvider_zoom             = 'zoom';
 
-    public static array $allowPlatforms = [
+    public static $allowPlatforms = [
         'web',
         'desktop',
         'js',

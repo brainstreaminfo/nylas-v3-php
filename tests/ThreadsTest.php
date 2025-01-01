@@ -26,7 +26,7 @@ class ThreadsTest extends AbsCase
                     'unread' => true,
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']['threads']);
         $this->assertGreaterThanOrEqual(1, count($response['data']));
@@ -45,7 +45,7 @@ class ThreadsTest extends AbsCase
                     'search_query_native' => 'test 1',
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']['threads']);
         $this->assertGreaterThanOrEqual(1, count($response['data']));
@@ -87,7 +87,7 @@ class ThreadsTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $threadId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']['latest_draft_or_message']['thread_id']);
     }
@@ -127,7 +127,7 @@ class ThreadsTest extends AbsCase
 //                    ],
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }
@@ -145,7 +145,7 @@ class ThreadsTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $threadId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['request_id']);
     }

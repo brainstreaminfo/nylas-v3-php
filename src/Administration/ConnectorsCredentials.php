@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Administration;
 
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
@@ -19,8 +19,11 @@ class ConnectorsCredentials
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -46,7 +49,7 @@ class ConnectorsCredentials
                 V::keyOptional('limit', V::intType()),
                 V::keyOptional('offset', V::intType()),
                 V::keyOptional('sort_by', V::in(['created_at', 'updated_at'])),
-                V::keyOptional('order_by', V::in(['desc', 'asc'])),
+                V::keyOptional('order_by', V::in(['desc', 'asc']))
             ),
             $params
         );
@@ -102,7 +105,7 @@ class ConnectorsCredentials
         V::doValidate(
             V::keySet(
                 V::key('provider', V::stringType()::notEmpty()),
-                V::key('credentialId', V::stringType()::notEmpty()),
+                V::key('credentialId', V::stringType()::notEmpty())
             ),
             [
                 'provider'      => $provider,
@@ -134,7 +137,7 @@ class ConnectorsCredentials
         V::doValidate(
             V::keySet(
                 V::key('provider', V::stringType()::notEmpty()),
-                V::key('credentialId', V::stringType()::notEmpty()),
+                V::key('credentialId', V::stringType()::notEmpty())
             ),
             [
                 'provider'      => $provider,
@@ -163,7 +166,7 @@ class ConnectorsCredentials
         V::doValidate(
             V::keySet(
                 V::key('provider', V::stringType()::notEmpty()),
-                V::key('credentialId', V::stringType()::notEmpty()),
+                V::key('credentialId', V::stringType()::notEmpty())
             ),
             [
                 'provider'      => $provider,

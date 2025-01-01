@@ -40,9 +40,9 @@ class FoldersTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Folders->Folder->list(
-                $this->client->Options->getGrantId(),
+                $this->client->Options->getGrantId()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertGreaterThan(1, count($response['data']));
     }
@@ -82,7 +82,7 @@ class FoldersTest extends AbsCase
                     'name' => 'test-nylas-'.rand(1, 100),
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertGreaterThan(1, count($response['data']));
     }
@@ -109,7 +109,7 @@ class FoldersTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $folderId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('id', $response['data']);
     }
@@ -139,7 +139,7 @@ class FoldersTest extends AbsCase
                     'name' => 'Label_'.$this->faker->randomDigit(),
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('id', $response['data']);
     }
@@ -157,7 +157,7 @@ class FoldersTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $folderId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }

@@ -14,7 +14,7 @@ class WebhooksTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Webhooks->Webhook->list();
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }
@@ -52,7 +52,7 @@ class WebhooksTest extends AbsCase
                     "test1@example.com"
                 ],
             ]);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }
@@ -79,7 +79,7 @@ class WebhooksTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Webhooks->Webhook->find($this->faker->uuid);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }
@@ -118,7 +118,7 @@ class WebhooksTest extends AbsCase
                     ],
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }
@@ -137,7 +137,7 @@ class WebhooksTest extends AbsCase
             $response = $this->client->Webhooks->Webhook->delete(
                 $this->faker->uuid
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertEquals('success', $response['data']['status']);
     }
@@ -166,7 +166,7 @@ class WebhooksTest extends AbsCase
             $response = $this->client->Webhooks->Webhook->rotateWebhookSecret(
                 $this->faker->uuid
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }
@@ -187,7 +187,7 @@ class WebhooksTest extends AbsCase
                 "trigger_type" => "calendar.created",
                 "webhook_url" => $this->faker->url,
             ]);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }

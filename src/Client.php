@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas;
 
@@ -31,7 +31,7 @@ class Client
     /**
      * @var array
      */
-    private array $objects = [];
+    private $objects = [];
 
     /**
      * Client constructor.
@@ -68,7 +68,7 @@ class Client
             return $this->objects[$name];
         }
 
-        $apiClass = __NAMESPACE__.'\\'.$name.'\\Abs';
+        $apiClass = __NAMESPACE__ . '\\' . $name . '\\Abs';
 
         // check class exists
         if (!class_exists($apiClass)) {
@@ -77,4 +77,15 @@ class Client
 
         return $this->objects[$name] = new $apiClass($this->objects['Options']);
     }
+
+    /**
+     * get options instance for setting options
+     *
+     * @return \Nylas\Utilities\Options
+     */
+    /*public function Options()
+    {
+        //return $this->options;
+        return $this->objects['Options'];
+    }*/
 }

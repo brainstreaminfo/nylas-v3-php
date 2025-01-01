@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Nylas\Folders;
@@ -6,7 +7,7 @@ namespace Nylas\Folders;
 use GuzzleHttp\Exception\GuzzleException;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * Folder Api
@@ -15,10 +16,15 @@ use Nylas\Utilities\Validator as V;
 class Folder
 {
     /**
+     * Manage constructor.
+     *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -87,7 +93,7 @@ class Folder
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('folderId', V::stringType()::notEmpty()),
+                V::key('folderId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -117,7 +123,7 @@ class Folder
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('folderId', V::stringType()::notEmpty()),
+                V::key('folderId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -149,7 +155,7 @@ class Folder
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('folderId', V::stringType()::notEmpty()),
+                V::key('folderId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,

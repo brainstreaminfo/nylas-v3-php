@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Administration;
 
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
@@ -19,8 +19,11 @@ class Connectors
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -36,7 +39,7 @@ class Connectors
         V::doValidate(
             V::keySet(
                 V::keyOptional('limit', V::intType()::min(1)),
-                V::keyOptional('offset', V::intType()::min(0)),
+                V::keyOptional('offset', V::intType()::min(0))
             ),
             $params
         );
@@ -63,11 +66,13 @@ class Connectors
             $provider
         );
 
-        return $this->options
+        $var =  $this->options
             ->getSync()
             ->setPath($provider)
             ->setHeaderParams($this->options->getAuthorizationHeader())
             ->get(API::LIST['crudOnConnector']);
+
+        return $var;
     }
 
     /**
@@ -131,7 +136,7 @@ class Connectors
             ->patch(API::LIST['crudOnConnector']);
     }
 
-     /**
+    /**
      * Delete the existing connector for the provider you specify
      * @see https://developer.nylas.com/docs/api/v3/admin/#delete-/v3/connectors/-provider-
      *
@@ -168,7 +173,7 @@ class Connectors
                 Validation::zoomCreateConnectorRequestRules(),
                 Validation::generalCreateConnectorRequestRules(API::$authProvider_imap),
                 Validation::generalCreateConnectorRequestRules(API::$authProvider_ews),
-                Validation::generalCreateConnectorRequestRules(API::$authProvider_virtual_calendar),
+                Validation::generalCreateConnectorRequestRules(API::$authProvider_virtual_calendar)
             ),
             $params
         );

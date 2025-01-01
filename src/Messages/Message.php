@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Messages;
 
 use Nylas\Utilities\API;
 use Nylas\Utilities\Helper;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
@@ -17,12 +17,15 @@ use GuzzleHttp\Exception\GuzzleException;
 class Message
 {
     /**
-     * Contact constructor.
+     * Manage constructor.
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -68,7 +71,7 @@ class Message
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('messageId', V::stringType()::notEmpty()),
+                V::key('messageId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -79,7 +82,7 @@ class Message
         V::doValidate(
             V::keySet(
                 V::keyOptional('fields', V::in(['standard', 'include_headers'])),
-                Validation::selectFilterRule(),
+                Validation::selectFilterRule()
             ),
             $queryParams
         );
@@ -105,7 +108,7 @@ class Message
     {
         V::doValidate(
             V::keySet(
-                V::key('grantId', V::stringType()::notEmpty()),
+                V::key('grantId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId
@@ -165,7 +168,7 @@ class Message
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('messageId', V::stringType()::notEmpty()),
+                V::key('messageId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -206,7 +209,7 @@ class Message
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('messageId', V::stringType()::notEmpty()),
+                V::key('messageId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -238,7 +241,7 @@ class Message
     {
         V::doValidate(
             V::keySet(
-                V::key('grantId', V::stringType()::notEmpty()),
+                V::key('grantId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -270,7 +273,7 @@ class Message
     {
         V::doValidate(
             V::keySet(
-                V::key('grantId', V::stringType()::notEmpty()),
+                V::key('grantId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -300,7 +303,7 @@ class Message
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('scheduleId', V::stringType()::notEmpty()),
+                V::key('scheduleId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'       => $grantId,
@@ -338,7 +341,7 @@ class Message
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('scheduleId', V::stringType()::notEmpty()),
+                V::key('scheduleId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'       => $grantId,

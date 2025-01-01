@@ -6,7 +6,7 @@ namespace Nylas\Administration;
 
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
@@ -20,8 +20,11 @@ class Grants
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**

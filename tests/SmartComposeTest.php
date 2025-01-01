@@ -25,7 +25,7 @@ class SmartComposeTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 'Reply to John Doe about the upcoming project.'
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('suggestion', $response['data']);
     }
@@ -46,7 +46,7 @@ class SmartComposeTest extends AbsCase
                 $messageId,
                 'Reply to John Doe about the upcoming project.'
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('suggestion', $response['data']);
     }

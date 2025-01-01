@@ -2,14 +2,14 @@
 
 namespace Nylas\Threads;
 
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 class Validation
 {
     public static function getBaseRules(): V
     {
         return V::keySet(
-            V::keyOptional('limit', V::intType()::length(min: 1, max: 50)),
+            V::keyOptional('limit', V::intType()::length(1, 50)),
             V::keyOptional('page_token', V::stringType()),
             V::keyOptional('subject', V::stringType()),
             V::keyOptional('any_email', V::arrayType()::each(V::email())),
@@ -26,7 +26,7 @@ class Validation
             V::keyOptional('latest_message_after', V::intType()),
             V::keyOptional('has_attachment', V::boolType()),
             V::keyOptional('search_query_native', V::stringType()),
-            V::keyOptional('select', V::stringType()),
+            V::keyOptional('select', V::stringType())
         );
     }
 }

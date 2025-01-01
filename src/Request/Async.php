@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Request;
 
@@ -10,7 +10,7 @@ use function is_callable;
 use Exception;
 use Throwable;
 use GuzzleHttp\Pool;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 use Nylas\Exceptions\NylasException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -112,7 +112,7 @@ class Async
 
         foreach ($data as $key => $item) {
             $data[$key] = $item instanceof ResponseInterface ?
-            $this->whenSuccess($item, $headers) : $this->whenFailed($item);
+                $this->whenSuccess($item, $headers) : $this->whenFailed($item);
         }
 
         return $data;

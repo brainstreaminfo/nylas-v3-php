@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Request;
 
@@ -38,15 +38,15 @@ trait AbsBase
     /**
      * @var Client
      */
-    private Client $guzzle;
+    private $guzzle;
 
-    private array $formFiles     = [];
-    private array $pathParams    = [];
-    private array $jsonParams    = [];
-    private array $queryParams   = [];
-    private array $headerParams  = [];
-    private array $bodyContents  = [];
-    private array $onHeadersFunc = [];
+    private $formFiles     = [];
+    private $pathParams    = [];
+    private $jsonParams    = [];
+    private $queryParams   = [];
+    private $headerParams  = [];
+    private $bodyContents  = [];
+    private $onHeadersFunc = [];
 
     /**
      * Request constructor.
@@ -55,7 +55,7 @@ trait AbsBase
      * @param null|callable $handler
      * @param bool|resource $debug
      */
-    public function __construct(?string $server = null, mixed $handler = null, mixed $debug = false)
+    public function __construct(string $server = null, $handler = null, $debug = false)
     {
         $option = [
             'verify'   => true,
@@ -106,7 +106,7 @@ trait AbsBase
     {
         $query = Helper::boolToString($query);
 
-        if (!empty($query)){
+        if (!empty($query)) {
             $this->queryParams = [
                 'query' => $query
             ];
@@ -241,16 +241,13 @@ trait AbsBase
         $request = $this;
         $excpArr = Errors::StatusExceptions;
 
-        return static function (ResponseInterface $response) use ($request, $excpArr): void
-        {
+        return static function (ResponseInterface $response) use ($request, $excpArr): void {
             $statusCode = $response->getStatusCode();
 
             // check status code
-            if ($statusCode >= 400)
-            {
+            if ($statusCode >= 400) {
                 // normal exception
-                if (isset($excpArr[$statusCode]))
-                {
+                if (isset($excpArr[$statusCode])) {
                     throw new $excpArr[$statusCode]();
                 }
 
@@ -259,8 +256,7 @@ trait AbsBase
             }
 
             // execute others on header functions
-            foreach ($request->onHeadersFunc as $func)
-            {
+            foreach ($request->onHeadersFunc as $func) {
                 $func($response);
             }
         };
@@ -273,7 +269,7 @@ trait AbsBase
      * @param bool $headers
      * @return mixed
      */
-    private function parseResponse(ResponseInterface $response, bool $headers = false): mixed
+    private function parseResponse(ResponseInterface $response, bool $headers = false)
     {
         if ($headers) {
             return $response->getHeaders();
@@ -285,15 +281,15 @@ trait AbsBase
         $data = $response->getBody()->getContents();
 
         // when not json type
-        if (!str_contains(strtolower(current($type)), $expc)) {
+        if (strpos(strtolower(current($type)), $expc) === false) {
             return $this->concatForInvalidJsonData($type, (string) $code, $data);
         }
 
         try {
             // decode json data
             $temp = trim(mb_convert_encoding($data, 'UTF-8'));
-            $temp = json_decode($temp, true, 512, JSON_THROW_ON_ERROR);
-        } catch (Throwable) {
+            $temp = json_decode($temp, true, 512);
+        } catch (Throwable $e) {
             return $this->concatForInvalidJsonData($type, (string) $code, $data);
         }
 

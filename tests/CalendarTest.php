@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Tests;
 
 use GuzzleHttp\Exception\GuzzleException;
-use JsonException;
+//use JsonException;
 
 /**
  * Calendar Test
@@ -14,7 +14,6 @@ class CalendarTest extends AbsCase
 {
     /**
      * @return void
-     * @throws JsonException
      */
     public function testAllCalenders()
     {
@@ -30,7 +29,8 @@ class CalendarTest extends AbsCase
             $response = $this->client->Calendars->Calendar->list(
                 $this->client->Options->getGrantId()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -57,7 +57,8 @@ class CalendarTest extends AbsCase
                     ],
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -79,7 +80,8 @@ class CalendarTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $calendarId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -108,7 +110,8 @@ class CalendarTest extends AbsCase
                 $calendarId,
                 $params
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -129,7 +132,8 @@ class CalendarTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $calendarId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -151,9 +155,11 @@ class CalendarTest extends AbsCase
                     'end_time' => (new \DateTime('+5 days'))->getTimestamp(),
                     'emails' => [
                         $this->faker->email,
+                    ]
                 ]
-            ]);
-        } catch (GuzzleException) {}
+            );
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -167,11 +173,13 @@ class CalendarTest extends AbsCase
         ]);
 
         $response = [];
-        try{
+        try {
             $response = $this->client->Calendars->Calendar->findAvailability(self::prepareForAvailability());
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
-        $this->assertIsArray($response['data']['time_slots']);
+        //$this->assertIsArray($response['data']['time_slots']);
+        $this->assertTrue(is_array($response['data']['time_slots']));
     }
 
     private static function prepareForAvailability(): array
@@ -193,8 +201,7 @@ class CalendarTest extends AbsCase
                             "timezone" => "America/Toronto",
                             "start" => "9:00",
                             "end" => "17:00",
-                            "exdates" => [
-                            ]
+                            "exdates" => []
                         ]
                     ]
                 ],
@@ -223,8 +230,7 @@ class CalendarTest extends AbsCase
                         "timezone" => "America/Toronto",
                         "start" => "9:00",
                         "end" => "17:00",
-                        "exdates" => [
-                        ]
+                        "exdates" => []
                     ],
                     [
                         "days" => [
@@ -235,8 +241,7 @@ class CalendarTest extends AbsCase
                         "timezone" => "America/Toronto",
                         "start" => "10:00",
                         "end" => "18:00",
-                        "exdates" => [
-                        ]
+                        "exdates" => []
                     ]
                 ]
             ]

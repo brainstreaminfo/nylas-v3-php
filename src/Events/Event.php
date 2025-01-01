@@ -5,7 +5,7 @@ namespace Nylas\Events;
 use GuzzleHttp\Exception\GuzzleException;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * Events
@@ -13,8 +13,16 @@ use Nylas\Utilities\Validator as V;
  */
 class Event
 {
-    public function __construct(private readonly Options $options)
+    /**
+     * Manage constructor.
+     *
+     * @param Options $options
+     */
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -92,7 +100,7 @@ class Event
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('eventId', V::stringType()::notEmpty()),
+                V::key('eventId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId,
@@ -136,7 +144,7 @@ class Event
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('eventId', V::stringType()::notEmpty()),
+                V::key('eventId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId,
@@ -179,7 +187,7 @@ class Event
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('eventId', V::stringType()::notEmpty()),
+                V::key('eventId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId,
@@ -190,7 +198,7 @@ class Event
         V::doValidate(
             V::keySet(
                 V::keyOptional('notify_participants', V::boolType()),
-                V::key('calendar_id', V::stringType()::notEmpty()),
+                V::key('calendar_id', V::stringType()::notEmpty())
             ),
             $queryParams
         );
@@ -219,7 +227,7 @@ class Event
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('eventId', V::stringType()::notEmpty()),
+                V::key('eventId', V::stringType()::notEmpty())
             ),
             [
                 'grantId' => $grantId,

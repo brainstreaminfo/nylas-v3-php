@@ -73,7 +73,7 @@ class DraftsTest extends AbsCase
             $response = $this->client->Drafts->Draft->list(
                 $this->client->Options->getGrantId()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }
@@ -89,7 +89,7 @@ class DraftsTest extends AbsCase
             );
 
             $this->assertNotEmpty($response['data']);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
     }
 
     public function testFindDraft()
@@ -103,7 +103,7 @@ class DraftsTest extends AbsCase
             );
 
             $this->assertNotEmpty($response['data']);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
     }
 
     public function testUpdateDraft()
@@ -118,11 +118,11 @@ class DraftsTest extends AbsCase
             $response = $this->client->Drafts->Draft->update(
                 $this->client->Options->getGrantId(),
                 $this->faker->uuid,
-                $updateParams,
+                $updateParams
             );
 
             $this->assertNotEmpty($response['data']);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
     }
 
     public function testSendDraft()
@@ -185,9 +185,9 @@ class DraftsTest extends AbsCase
         try {
             $response = $this->client->Drafts->Draft->sendDraft(
                 $this->client->Options->getGrantId(),
-                $this->faker->uuid,
+                $this->faker->uuid
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }
@@ -202,9 +202,9 @@ class DraftsTest extends AbsCase
         try {
             $response = $this->client->Drafts->Draft->delete(
                 $this->client->Options->getGrantId(),
-                $this->faker->uuid,
+                $this->faker->uuid
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('request_id', $response);
     }

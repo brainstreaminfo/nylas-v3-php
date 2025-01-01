@@ -36,7 +36,7 @@ class ResourcesTest extends AbsCase
                     'limit' => 1,
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }

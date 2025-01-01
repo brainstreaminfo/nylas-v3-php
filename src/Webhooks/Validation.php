@@ -2,7 +2,7 @@
 
 namespace Nylas\Webhooks;
 
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * Webhooks Validation
@@ -16,7 +16,8 @@ class Validation
     {
         return V::keySet(
             V::keyOptional('description', V::stringType()),
-            V::key('trigger_types',
+            V::key(
+                'trigger_types',
                 V::arrayType()::each(
                     V::in([
                         'calendar.created',
@@ -44,7 +45,7 @@ class Validation
                 )
             ),
             V::key('webhook_url', V::url()::notEmpty()),
-            V::keyOptional('notification_email_addresses', V::arrayType()::each(V::email())),
+            V::keyOptional('notification_email_addresses', V::arrayType()::each(V::email()))
         );
     }
 
@@ -55,7 +56,8 @@ class Validation
     {
         return V::keySet(
             V::keyOptional('description', V::stringType()),
-            V::keyOptional('trigger_types',
+            V::keyOptional(
+                'trigger_types',
                 V::arrayType()::each(
                     V::in([
                         'calendar.created',
@@ -84,7 +86,7 @@ class Validation
             ),
             V::keyOptional('webhook_url', V::url()),
             V::keyOptional('notification_email_addresses', V::arrayType()::each(V::email())),
-            V::keyOptional('status', V::in(['active', 'pause'])),
+            V::keyOptional('status', V::in(['active', 'pause']))
         );
     }
 
@@ -94,33 +96,34 @@ class Validation
     public static function mockNotificationPlayLoadRules(): V
     {
         return V::keySet(
-                V::key('trigger_type',
-                    V::in([
-                        'calendar.created',
-                        'calendar.updated',
-                        'calendar.deleted',
-                        'event.created',
-                        'event.updated',
-                        'event.deleted',
-                        'grant.created',
-                        'grant.updated',
-                        'grant.deleted',
-                        'grant.expired',
-                        'message.send_success',
-                        'message.send_failed',
-                        'message.bounce_detected',
-                        'message.created',
-                        'message.created.truncated',
-                        'message.updated',
-                        'message.updated.truncated',
-                        'contact.updated',
-                        'contact.deleted',
-                        'folder.created',
-                        'folder.updated',
-                        'folder.deleted',
-                    ])
-                ),
-            V::key('webhook_url', V::url()::notEmpty()),
+            V::key(
+                'trigger_type',
+                V::in([
+                    'calendar.created',
+                    'calendar.updated',
+                    'calendar.deleted',
+                    'event.created',
+                    'event.updated',
+                    'event.deleted',
+                    'grant.created',
+                    'grant.updated',
+                    'grant.deleted',
+                    'grant.expired',
+                    'message.send_success',
+                    'message.send_failed',
+                    'message.bounce_detected',
+                    'message.created',
+                    'message.created.truncated',
+                    'message.updated',
+                    'message.updated.truncated',
+                    'contact.updated',
+                    'contact.deleted',
+                    'folder.created',
+                    'folder.updated',
+                    'folder.deleted',
+                ])
+            ),
+            V::key('webhook_url', V::url()::notEmpty())
         );
     }
 }

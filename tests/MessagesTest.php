@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests;
@@ -23,10 +24,11 @@ class MessagesTest extends AbsCase
                     'limit' => 1,
                 ]
             );
+        } catch (GuzzleException $e) {
+        }
 
-        } catch (GuzzleException) {}
-
-        $this->assertIsArray($response['data']);
+        //$this->assertIsArray($response['data']);
+        $this->assertTrue(is_array($response['data']));
     }
 
     public function testListMessagesWithSearchFilter()
@@ -42,9 +44,11 @@ class MessagesTest extends AbsCase
                     'limit'  => 1,
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
-        $this->assertIsArray($response['data']);
+        //$this->assertIsArray($response['data']);
+        $this->assertTrue(is_array($response['data']));
     }
 
     public function testFindMessageById()
@@ -58,7 +62,7 @@ class MessagesTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $messageId
             );
-        } catch (GuzzleException|NylasException $e) {
+        } catch (\Exception $e) {
             $this->assertEquals(404, $e->getCode());
         }
 
@@ -81,7 +85,8 @@ class MessagesTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 self::prepareMessageWithTracking()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -117,7 +122,8 @@ class MessagesTest extends AbsCase
                     ],
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -138,7 +144,8 @@ class MessagesTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 self::prepareMessageWithImages()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -159,7 +166,8 @@ class MessagesTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 self::prepareMessageWithInLineImage()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -180,7 +188,8 @@ class MessagesTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 self::prepareMessageWithPdf()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -201,7 +210,8 @@ class MessagesTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $this->prepareMessageWithDraft()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -230,7 +240,8 @@ class MessagesTest extends AbsCase
                     'starred' => $this->faker->randomElement([true, false]),
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertArrayHasKey('starred', $response['data']);
     }
@@ -246,9 +257,10 @@ class MessagesTest extends AbsCase
             $messageId = $this->faker->uuid;
             $response = $this->client->Messages->Message->delete(
                 $this->client->Options->getGrantId(),
-                $messageId,
+                $messageId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['request_id']);
     }
@@ -273,7 +285,8 @@ class MessagesTest extends AbsCase
                     'ignore_links' => true,
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertArrayHasKey('data', $response);
     }
@@ -303,7 +316,8 @@ class MessagesTest extends AbsCase
             $response = $this->client->Messages->Message->listScheduleMessages(
                 $this->client->Options->getGrantId()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response);
     }
@@ -324,7 +338,8 @@ class MessagesTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $this->faker->uuid
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertArrayHasKey('status', $response);
     }
@@ -345,7 +360,8 @@ class MessagesTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $scheduleId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertArrayHasKey('message', $response['data']);
     }
@@ -373,7 +389,7 @@ class MessagesTest extends AbsCase
             ],
             "attachments" => [
                 [
-//                    "content" => "/home/example/300x50_demo.jpg",
+                    //                    "content" => "/home/example/300x50_demo.jpg",
                     "content" => "PATH_TO_FILE",
                     "content_type" => "image/jpeg",
                     "filename" => "300x50_demo.jpg",
@@ -412,7 +428,7 @@ class MessagesTest extends AbsCase
             ],
             "attachments" => [
                 [
-//                    "content" => "/home/example/300x50_demo.jpg",
+                    //                    "content" => "/home/example/300x50_demo.jpg",
                     "content" => "PATH-TO-FILE",
                     "content_type" => "image/jpeg",
                     "filename" => "300x50_demo.jpg",
@@ -506,12 +522,12 @@ class MessagesTest extends AbsCase
                     "email" => "test2@example.com"
                 ]
             ],
-//            "bcc" => [
-//                [
-//                    "name" => "Nylas",
-//                    "email" => "test@example.com"
-//                ]
-//            ],
+            //            "bcc" => [
+            //                [
+            //                    "name" => "Nylas",
+            //                    "email" => "test@example.com"
+            //                ]
+            //            ],
             "tracking_options" => [
                 "opens" => true,
                 "links" => true,

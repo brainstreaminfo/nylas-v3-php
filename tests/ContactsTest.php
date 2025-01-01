@@ -113,7 +113,7 @@ class ContactsTest extends AbsCase
                     'limit' => 1,
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['request_id']);
     }
@@ -128,7 +128,7 @@ class ContactsTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $this->prepareCreatContact()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }
@@ -145,7 +145,7 @@ class ContactsTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $contactId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('id', $response['data']);
     }
@@ -168,7 +168,7 @@ class ContactsTest extends AbsCase
                     ]
                 )
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('id', $response['data']);
     }
@@ -187,7 +187,7 @@ class ContactsTest extends AbsCase
                 $this->client->Options->getGrantId(),
                 $contactId
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('request_id', $response);
     }
@@ -209,7 +209,7 @@ class ContactsTest extends AbsCase
             $response = $this->client->Contacts->Contact->contactGroups(
                 $this->client->Options->getGrantId()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertArrayHasKey('id', $response['data'][0]);
     }

@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Messages;
 
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -39,7 +39,7 @@ class Validation
             V::keyOptional('received_after', V::intType()),
             V::keyOptional('has_attachment', V::boolType()),
             V::keyOptional('fields', V::in(['standard', 'include_headers'])),
-            V::keyOptional('search_query_native', V::stringType()),
+            V::keyOptional('search_query_native', V::stringType())
         );
     }
 
@@ -58,13 +58,13 @@ class Validation
             V::keyOptional('reply_to_message_id', V::stringType()),
             V::keyOptional('use_draft', V::boolType()),
             V::keyOptional('attachments', self::messageAttachmentRule()),
-            V::keyOptional('custom_headers', self::messageCustomHeadersRules()),
+            V::keyOptional('custom_headers', self::messageCustomHeadersRules())
         );
     }
 
     private static function messageEmailRules(): V
     {
-        return V::simpleArray(
+        return V::arrayVal()->each(
             V::keySet(
                 V::keyOptional('name', V::stringType()),
                 V::key('email', V::email()::notEmpty())
@@ -78,13 +78,13 @@ class Validation
             V::keyOptional('opens', V::boolType()),
             V::keyOptional('thread_replies', V::boolType()),
             V::keyOptional('links', V::boolType()),
-            V::keyOptional('label', V::stringType()::length(max: 2048)),
+            V::keyOptional('label', V::stringType()::length(null, 2048))
         );
     }
 
     private static function messageAttachmentRule(): V
     {
-        return V::simpleArray(V::keySet(
+        return V::arrayVal()->each(V::keySet(
             V::key('content', V::oneOf(
                 V::resourceType(),
                 V::stringType(),
@@ -95,15 +95,15 @@ class Validation
             V::keyOptional('size', V::intType()),
             V::keyOptional('content_id', V::stringType()),
             V::keyOptional('content_disposition', V::stringType()),
-            V::keyOptional('is_inline', V::boolType()),
+            V::keyOptional('is_inline', V::boolType())
         ));
     }
 
     private static function messageCustomHeadersRules(): V
     {
-        return V::simpleArray(V::keySet(
+        return V::arrayVal()->each(V::keySet(
             V::keyOptional('name', V::stringType()),
-            V::keyOptional('value', V::stringType()),
+            V::keyOptional('value', V::stringType())
         ));
     }
 
@@ -113,7 +113,7 @@ class Validation
             V::keyOptional('starred', V::boolType()),
             V::keyOptional('unread', V::boolType()),
             V::keyOptional('folders', V::arrayType()::each(V::stringType()::notEmpty())),
-            V::keyOptional('metadata', V::simpleArray()),
+            V::keyOptional('metadata', V::arrayVal()->each())
         );
     }
 
@@ -125,14 +125,15 @@ class Validation
             V::keyOptional('ignore_images', V::boolType()),
             V::keyOptional('images_as_markdown', V::boolType()),
             V::keyOptional('ignore_tables', V::boolType()),
-            V::keyOptional('remove_conclusion_phrases', V::boolType()),
+            V::keyOptional('remove_conclusion_phrases', V::boolType())
         );
     }
 
     public static function selectFilterRule(): V
     {
         return V::keyOptional(
-            'select', V::stringType()
+            'select',
+            V::stringType()
         );
     }
 }

@@ -11,7 +11,7 @@ use function array_values;
 use DateTimeZone;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
@@ -20,12 +20,15 @@ use GuzzleHttp\Exception\GuzzleException;
 class Calendar
 {
     /**
-     * Calendar constructor.
+     * Manage constructor.
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -47,17 +50,17 @@ class Calendar
                 V::keyOptional('limit', V::intType()::length(1, 200)),
                 V::keyOptional('page_token', V::stringType()),
                 V::keyOptional('metadata_pair', V::arrayType()),
-                V::keyOptional('select', V::stringType()),
+                V::keyOptional('select', V::stringType())
             ),
             $params
         );
 
         return $this->options
-                ->getSync()
-                ->setPath($grantId)
-                ->setQuery($params)
-                ->setHeaderParams($this->options->getAuthorizationHeader())
-                ->get(API::LIST['calendars']);
+            ->getSync()
+            ->setPath($grantId)
+            ->setQuery($params)
+            ->setHeaderParams($this->options->getAuthorizationHeader())
+            ->get(API::LIST['calendars']);
     }
 
     /**
@@ -79,23 +82,23 @@ class Calendar
                 V::keyOptional('timezone', V::in(DateTimeZone::listIdentifiers())),
                 V::keyOptional('location', V::stringType()::notEmpty()),
                 V::keyOptional('description', V::stringType()::notEmpty()),
-                V::keyOptional('metadata', self::metadataRules()),
+                V::keyOptional('metadata', self::metadataRules())
             ),
             $params
         );
 
         return $this->options
-                ->getSync()
-                ->setPath($grantId)
-                ->setFormParams($params)
-                ->setHeaderParams($this->options->getAuthorizationHeader())
-                ->post(API::LIST['calendars']);
+            ->getSync()
+            ->setPath($grantId)
+            ->setFormParams($params)
+            ->setHeaderParams($this->options->getAuthorizationHeader())
+            ->post(API::LIST['calendars']);
     }
 
     /**
      * Returns a calendar by ID.
      * @see https://developer.nylas.com/docs/api/v3/ecc/#get-/v3/grants/-grant_id-/calendars/-calendar_id-
-     * 
+     *
      * @param string $grantId
      * @param string $calendarId
      * @return array
@@ -153,11 +156,11 @@ class Calendar
                 V::keyOptional('metadata', self::metadataRules()),
                 V::keyOptional('description', V::stringType()::notEmpty()),
                 V::keyOptional('hexColor', V::stringType()::notEmpty()),
-                V::keyOptional('hexForegroundColor', V::stringType()::notEmpty()),
+                V::keyOptional('hexForegroundColor', V::stringType()::notEmpty())
             ),
             $params
         );
-        
+
         return $this->options
             ->getSync()
             ->setPath($grantId, $calendarId)
@@ -176,7 +179,7 @@ class Calendar
      * @return array
      * @throws GuzzleException
      */
-    public function delete(string $grantId, mixed $calendarId): array
+    public function delete(string $grantId, $calendarId): array
     {
         V::doValidate(
             V::keySet(
@@ -190,10 +193,10 @@ class Calendar
         );
 
         return $this->options
-        ->getSync()
-        ->setPath($grantId, $calendarId)
-        ->setHeaderParams($this->options->getAuthorizationHeader())
-        ->delete(API::LIST['crudOnCalendar']);
+            ->getSync()
+            ->setPath($grantId, $calendarId)
+            ->setHeaderParams($this->options->getAuthorizationHeader())
+            ->delete(API::LIST['crudOnCalendar']);
     }
 
     /**
@@ -211,17 +214,17 @@ class Calendar
             V::keySet(
                 V::key('start_time', V::timestampType()),
                 V::key('end_time', V::timestampType()),
-                V::key('emails', V::simpleArray(V::email()))
+                V::key('emails', v::arrayVal()->each(v::email())) //V::simpleArray(V::email()
             ),
             $params
         );
 
         return $this->options
-                ->getSync()
-                ->setPath($grantId)
-                ->setFormParams($params)
-                ->setHeaderParams($this->options->getAuthorizationHeader())
-                ->post(API::LIST['calendarSchedule']);
+            ->getSync()
+            ->setPath($grantId)
+            ->setFormParams($params)
+            ->setHeaderParams($this->options->getAuthorizationHeader())
+            ->post(API::LIST['calendarSchedule']);
     }
 
     /**
@@ -253,7 +256,7 @@ class Calendar
      */
     private static function metadataRules(): V
     {
-        return V::callback(static function (mixed $input): bool {
+        return V::callback(static function ($input): bool {
             if (!is_array($input) || count($input) > 50) {
                 return false;
             }

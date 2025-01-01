@@ -5,7 +5,7 @@ namespace Nylas\Attachments;
 use GuzzleHttp\Exception\GuzzleException;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * @property Attachment Attachment
@@ -13,10 +13,15 @@ use Nylas\Utilities\Validator as V;
 class Attachment
 {
     /**
+     * Manage constructor.
+     *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -35,7 +40,7 @@ class Attachment
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
                 V::key('attachmentId', V::stringType()::notEmpty()),
-                V::key('messageId', V::stringType()::notEmpty()),
+                V::key('messageId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'       => $grantId,
@@ -70,7 +75,7 @@ class Attachment
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
                 V::key('attachmentId', V::stringType()::notEmpty()),
-                V::key('messageId', V::stringType()::notEmpty()),
+                V::key('messageId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'       => $grantId,

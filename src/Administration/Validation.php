@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Administration;
 
 use Nylas\Utilities\API;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 /**
  * Nylas App Administration Validations
@@ -23,7 +23,7 @@ class Validation
             V::keyOptional('origin', V::url()::notEmpty()), //js-only
             V::keyOptional('bundle_id', V::stringType()::notEmpty()), //ios -only
             V::keyOptional('app_store_id', V::stringType()::notEmpty()), //ios -only
-            V::keyOptional('team_id', V::stringType()::notEmpty()),//ios -only
+            V::keyOptional('team_id', V::stringType()::notEmpty()), //ios -only
             V::keyOptional('package_name', V::stringType()::notEmpty()),
             V::keyOptional('sha1_certificate_fingerprint', V::stringType()::notEmpty())
         );
@@ -42,12 +42,14 @@ class Validation
             V::key('redirect_uri', V::url()::notEmpty()),
             V::key('response_type', V::in(['code'])),
             V::keyOptional('scope', V::arrayType()::each(V::stringType()::notEmpty())),
-            V::keyOptional('prompt',
-                V::in(['select_provider', 'detect', 'select_provider,detect', 'detect,select_provider'])),
+            V::keyOptional(
+                'prompt',
+                V::in(['select_provider', 'detect', 'select_provider,detect', 'detect,select_provider'])
+            ),
             V::keyOptional('state', V::stringType()::length(1, 256)),
             V::keyOptional('login_hint', V::email()),
             V::keyOptional('access_type', V::in(['offline', 'online'])),
-            V::keyOptional('credential_id', V::stringType()),
+            V::keyOptional('credential_id', V::stringType())
         );
     }
 
@@ -63,8 +65,10 @@ class Validation
             ->attribute('redirect_uri', V::url())
             ->attribute('response_type', V::in(['code']))
             ->attribute('scope', V::arrayType()->each(V::stringType()::notEmpty()))
-            ->attribute('prompt',
-                V::in(['select_provider', 'detect', 'select_provider,detect', 'detect,select_provider']))
+            ->attribute(
+                'prompt',
+                V::in(['select_provider', 'detect', 'select_provider,detect', 'detect,select_provider'])
+            )
             ->attribute('state', V::stringType()::length(1, 256))
             ->attribute('login_hint', V::email())
             ->attribute('access_type', V::in([' offline', 'online']))
@@ -84,8 +88,10 @@ class Validation
             V::key('redirect_uri', V::url()),
             V::key('response_type', V::in(['code'])),
             V::keyOptional('scope', V::arrayType()->each(V::stringType()::notEmpty())),
-            V::keyOptional('prompt',
-                V::in(['select_provider', 'detect', 'select_provider,detect', 'detect,select_provider'])),
+            V::keyOptional(
+                'prompt',
+                V::in(['select_provider', 'detect', 'select_provider,detect', 'detect,select_provider'])
+            ),
             V::keyOptional('state', V::stringType()::length(1, 256)),
             V::keyOptional('login_hint', V::email()),
             V::keyOptional('access_type', V::in([' offline', 'online'])),
@@ -103,7 +109,7 @@ class Validation
             V::key('settings', V::keySet(
                 V::key('client_id', V::stringType()::notEmpty()),
                 V::key('client_secret', V::stringType()::notEmpty()),
-                V::keyOptional('topic_name', V::stringType()::notEmpty()),
+                V::keyOptional('topic_name', V::stringType()::notEmpty())
             )),
             V::keyOptional('scope', V::arrayType()::each(V::stringType()))
         );
@@ -116,7 +122,7 @@ class Validation
             V::key('settings', V::keySet(
                 V::key('client_id', V::stringType()::notEmpty()),
                 V::key('client_secret', V::stringType()::notEmpty()),
-                V::keyOptional('tenant', V::stringType()::notEmpty()),
+                V::keyOptional('tenant', V::stringType()::notEmpty())
             )),
             V::keyOptional('scope', V::arrayType()::each(V::stringType()))
         );
@@ -128,8 +134,8 @@ class Validation
             V::key('provider', V::equals(API::$authProvider_zoom)),
             V::key('settings', V::keySet(
                 V::key('client_id', V::stringType()::notEmpty()),
-                V::key('client_secret', V::stringType()::notEmpty()),
-            )),
+                V::key('client_secret', V::stringType()::notEmpty())
+            ))
         );
     }
 
@@ -139,7 +145,7 @@ class Validation
             V::key('provider', V::equals(API::$authProvider_yahoo)),
             V::key('settings', V::keySet(
                 V::key('client_id', V::stringType()::notEmpty()),
-                V::key('client_secret', V::stringType()::notEmpty()),
+                V::key('client_secret', V::stringType()::notEmpty())
             )),
             V::keyOptional('scope', V::arrayType()::each(V::stringType()))
         );
@@ -148,7 +154,7 @@ class Validation
     public static function generalCreateConnectorRequestRules($provider): V
     {
         return V::keySet(
-            V::key('provider', V::equals($provider)),
+            V::key('provider', V::equals($provider))
         );
     }
 
@@ -157,7 +163,7 @@ class Validation
         return V::oneOf(
             Validation::createGoogleCredentialRequestRules(),
             Validation::createMicrosoftCredentialRequestRules(),
-            Validation::createConnectorOverrideCredentialRequestRules(),
+            Validation::createConnectorOverrideCredentialRequestRules()
         );
     }
     public static function updateCredentialRequestRules(): V
@@ -167,8 +173,8 @@ class Validation
             V::key('credential_data', V::oneOf(
                 self::googleServiceAccountRules(),
                 self::microsoftAdminConsentSettingsRules(),
-                self::overwriteCredentialDataRules(),
-            )),
+                self::overwriteCredentialDataRules()
+            ))
         );
     }
 
@@ -177,7 +183,7 @@ class Validation
         return V::keySet(
             V::key('name', V::stringType()::notEmpty()),
             V::key('credential_type', V::equals('adminconsent')),
-            V::key('credential_data', self::microsoftAdminConsentSettingsRules()),
+            V::key('credential_data', self::microsoftAdminConsentSettingsRules())
         );
     }
 
@@ -186,7 +192,7 @@ class Validation
         return V::keySet(
             V::key('name', V::stringType()::notEmpty()),
             V::key('credential_type', V::equals('serviceaccount')),
-            V::key('credential_data', self::googleServiceAccountRules()),
+            V::key('credential_data', self::googleServiceAccountRules())
         );
     }
 
@@ -195,17 +201,17 @@ class Validation
         return V::keySet(
             V::key('name', V::stringType()::notEmpty()),
             V::key('credential_type', V::equals('connector')),
-            V::key('credential_data', self::overwriteCredentialDataRules()),
+            V::key('credential_data', self::overwriteCredentialDataRules())
         );
     }
 
     private static function microsoftAdminConsentSettingsRules(): V
     {
         return V::keySet(
-                V::key('client_id', V::stringType()::notEmpty()),
-                V::key('client_secret', V::stringType()::notEmpty()),
-                V::keyOptional('tenant', V::stringType()),
-            );
+            V::key('client_id', V::stringType()::notEmpty()),
+            V::key('client_secret', V::stringType()::notEmpty()),
+            V::keyOptional('tenant', V::stringType())
+        );
     }
 
     public static function googleServiceAccountRules(): V
@@ -220,7 +226,7 @@ class Validation
             V::keyOptional('auth_uri', V::stringType()),
             V::keyOptional('token_uri', V::stringType()),
             V::keyOptional('auth_provider_x509_cert_url', V::stringType()),
-            V::keyOptional('client_x509_cert_url', V::stringType()),
+            V::keyOptional('client_x509_cert_url', V::stringType())
         );
     }
 
@@ -228,7 +234,7 @@ class Validation
     {
         return V::keySet(
             V::key('client_id', V::stringType()::notEmpty()),
-            V::key('client_secret', V::stringType()::notEmpty()),
+            V::key('client_secret', V::stringType()::notEmpty())
         );
     }
 
@@ -243,7 +249,7 @@ class Validation
                 V::keyOptional('name', V::stringType()::notEmpty()),
                 V::keyOptional('icon_url', V::url()::notEmpty()),
                 V::keyOptional('website_url', V::url()::notEmpty()),
-                V::keyOptional('description', V::stringType()::notEmpty()),
+                V::keyOptional('description', V::stringType()::notEmpty())
             )),
             V::keyOptional('hosted_authentication', (V::keySet(
                 V::keyOptional('background_image_url', V::url()::notEmpty()),
@@ -253,13 +259,13 @@ class Validation
                 V::keyOptional('title', V::stringType()::notEmpty()),
                 V::keyOptional('subtitle', V::stringType()::notEmpty()),
                 V::keyOptional('background_color', V::stringType()::notEmpty()),
-                V::keyOptional('spacing', V::stringType()::notEmpty()),
+                V::keyOptional('spacing', V::stringType()::notEmpty())
             ))),
             V::keyOptional('callback_uris', V::keySet(
                 V::keyOptional('url', V::url()::notEmpty()),
                 V::keyOptional('platform', V::in(API::$allowPlatforms)),
-                V::keyOptional('settings',  Validation::callBackUrlSettingRules()),
-            )),
+                V::keyOptional('settings',  Validation::callBackUrlSettingRules())
+            ))
         );
     }
 
@@ -277,7 +283,7 @@ class Validation
             V::keyOptional('ip', V::stringType()),
             V::keyOptional('provider', V::in(API::$authProviders)),
             V::keyOptional('account_id', V::stringType()),
-            V::keyOptional('account_ids', V::stringType()),
+            V::keyOptional('account_ids', V::stringType())
         );
     }
 }

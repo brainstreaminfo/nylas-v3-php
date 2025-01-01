@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Nylas\Threads;
@@ -6,15 +7,20 @@ namespace Nylas\Threads;
 use GuzzleHttp\Exception\GuzzleException;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 class Thread
 {
     /**
+     * Manage constructor.
+     *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -67,7 +73,7 @@ class Thread
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('threadId', V::stringType()::notEmpty()),
+                V::key('threadId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -97,7 +103,7 @@ class Thread
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('threadId', V::stringType()::notEmpty()),
+                V::key('threadId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,
@@ -109,7 +115,7 @@ class Thread
             V::keySet(
                 V::keyOptional('starred', V::boolType()),
                 V::keyOptional('unread', V::boolType()),
-                V::keyOptional('folders', V::arrayType()::each(V::stringType())),
+                V::keyOptional('folders', V::arrayType()::each(V::stringType()))
             ),
             $params
         );
@@ -136,7 +142,7 @@ class Thread
         V::doValidate(
             V::keySet(
                 V::key('grantId', V::stringType()::notEmpty()),
-                V::key('threadId', V::stringType()::notEmpty()),
+                V::key('threadId', V::stringType()::notEmpty())
             ),
             [
                 'grantId'   => $grantId,

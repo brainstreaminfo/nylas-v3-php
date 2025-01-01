@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Utilities;
 
@@ -19,12 +19,12 @@ trait Abs
     /**
      * @var Options
      */
-    private Options $options;
+    private $options;
 
     /**
      * @var array
      */
-    private array $objects = [];
+    private $objects = [];
 
     /**
      * Abs constructor.
@@ -60,7 +60,7 @@ trait Abs
         }
 
         $nmSpace  = trim(get_class($this), 'Abs');
-        $subClass = trim($nmSpace, '\\').'\\'.ucfirst($name);
+        $subClass = trim($nmSpace, '\\') . '\\' . ucfirst($name);
 
         // check class exists
         if (!class_exists($subClass)) {

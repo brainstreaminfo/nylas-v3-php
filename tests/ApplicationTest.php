@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Tests;
 
 use GuzzleHttp\Exception\GuzzleException;
-use JsonException;
+//use JsonException;
 use function time;
 
 /**
@@ -15,8 +15,7 @@ class ApplicationTest extends AbsCase
 {
     /**
      * @return void
-     * @throws GuzzleException
-     * @throws JsonException
+     * @throws GuzzleException $e
      */
     public function testGetApplications()
     {
@@ -25,8 +24,8 @@ class ApplicationTest extends AbsCase
             "data" => [
                 "application_id" => $this->faker->uuid,
                 "branding" => [
-                "icon_url" => "https://nylas-static-assets.s3.us-west-2.amazonaws.com/nylas-logo-300x300.png",
-                "name" => "Sandbox",
+                    "icon_url" => "https://nylas-static-assets.s3.us-west-2.amazonaws.com/nylas-logo-300x300.png",
+                    "name" => "Sandbox",
                 ],
                 "created_at" => 1727960752,
                 "environment" => "sandbox",
@@ -45,8 +44,7 @@ class ApplicationTest extends AbsCase
     }
 
     /**
-     * @throws GuzzleException
-     * @throws JsonException
+     * @throws GuzzleException $e
      */
     public function testUpdateApplicationDetails(): void
     {
@@ -62,9 +60,9 @@ class ApplicationTest extends AbsCase
         ]);
 
         $param = [
-            'application_id' => 'test_'.time(),
-            'organization_id' => 'test_'.time(),
-            'region' => 'test_'.time(),
+            'application_id' => 'test_' . time(),
+            'organization_id' => 'test_' . time(),
+            'region' => 'test_' . time(),
             'environment' => 'sandbox',
             'callback_uris'    => [
                 'url' => 'http://www.test-nylas-test.com',
@@ -91,7 +89,8 @@ class ApplicationTest extends AbsCase
                 'url' => sprintf('https://test+%s.com', $this->faker->randomNumber()),
                 'platform' => 'web',
             ]);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -107,7 +106,8 @@ class ApplicationTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Administration->Application->listCallbackUrls();
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -124,7 +124,8 @@ class ApplicationTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Administration->Application->deleteCallbackUrl($id);
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }
@@ -140,7 +141,8 @@ class ApplicationTest extends AbsCase
         $response = [];
         try {
             $response = $this->client->Administration->Application->getCallbackUrlDetails('test-123');
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {
+        }
 
         $this->assertNotEmpty($response['data']);
     }

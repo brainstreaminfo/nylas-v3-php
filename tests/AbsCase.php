@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Tests;
 
@@ -10,7 +10,7 @@ use function json_encode;
 use Mockery;
 use Nylas\Client;
 use Faker\Factory;
-use JsonException;
+//use JsonException;
 use Faker\Generator;
 use ReflectionMethod;
 use ReflectionException;
@@ -31,12 +31,12 @@ class AbsCase extends TestCase
     /**
      * @var Client
      */
-    protected Client $client;
+    protected $client;
 
     /**
      * @var Generator
      */
-    protected Generator $faker;
+    protected $faker;
 
     /**
      * init client instance
@@ -49,11 +49,11 @@ class AbsCase extends TestCase
 
         $options = [
             'debug'     => true,
-            'log_file'  => __DIR__.'/test.log',
-            'api_key'   => 'NYLAS_API_KEY',
-            'region'    => 'NYLAS_REGION',
-            'client_id' => 'NYLAS_CLIENT_ID',
-            'grant_id'  => 'NYLAS_GRANT_ID',
+            'log_file'  => __DIR__ . '/test.log',
+            'api_key'   => 'nyk_v0_i8y3G3J3pyLNdT4AMKmI3YG5umWJjEGAE5iTF86D1eOEVwQQE1U9376cH2LdVh4A',
+            'region'    => 'us',
+            'client_id' => '034ac449-bb4c-4780-aeff-4b3f1ef51e2d',
+            'grant_id'  => 'e9a4fbb5-6c11-4bbf-bad2-66b1fdce2f3e'
         ];
 
         $this->client = new Client($options);
@@ -86,7 +86,7 @@ class AbsCase extends TestCase
      *
      * @return LegacyMockInterface|MockInterface
      */
-    protected function spy(mixed ...$args): MockInterface|LegacyMockInterface
+    protected function spy(...$args)
     {
         return Mockery::spy(...$args);
     }
@@ -98,7 +98,7 @@ class AbsCase extends TestCase
      *
      * @return LegacyMockInterface|MockInterface
      */
-    protected function mock(mixed ...$args): MockInterface|LegacyMockInterface
+    protected function mock(...$args)
     {
         return Mockery::mock(...$args);
     }
@@ -110,9 +110,9 @@ class AbsCase extends TestCase
      *
      * @return LegacyMockInterface|MockInterface
      */
-    protected function overload(string $class): MockInterface|LegacyMockInterface
+    protected function overload(string $class)
     {
-        return Mockery::mock('overload:'.$class);
+        return Mockery::mock('overload:' . $class);
     }
 
     /**
@@ -126,7 +126,7 @@ class AbsCase extends TestCase
      * @throws ReflectionException
      * @throws ReflectionException
      */
-    protected function call(object $object, string $method, mixed ...$params): mixed
+    protected function call(object $object, string $method, ...$params)
     {
         $method = new ReflectionMethod($object, $method);
         $method->setAccessible(true);
@@ -146,8 +146,7 @@ class AbsCase extends TestCase
     {
         $mod = $this->overload($name)->makePartial();
 
-        foreach ($mock as $method => $return)
-        {
+        foreach ($mock as $method => $return) {
             $mod->shouldReceive($method)->andReturn($return);
         }
 
@@ -161,11 +160,13 @@ class AbsCase extends TestCase
      * @param array $header
      * @param int   $code
      *
-     * @throws JsonException
      */
     protected function mockResponse(array $data, array $header = [], int $code = 200): void
     {
-        $body = json_encode($data, JSON_THROW_ON_ERROR);
+        $body = json_encode($data);
+        if ($body === false) {
+            throw new \Exception('JSON encoding error: ' . json_last_error_msg());
+        }
 
         $header = array_merge($header, ['Content-Type' => 'application/json']);
 

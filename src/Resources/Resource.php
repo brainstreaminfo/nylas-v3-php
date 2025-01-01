@@ -5,12 +5,20 @@ namespace Nylas\Resources;
 use GuzzleHttp\Exception\GuzzleException;
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 
 class Resource
 {
-    public function __construct(private readonly Options $options)
+    /**
+     * Manage constructor.
+     *
+     * @param Options $options
+     */
+    private $options;
+
+    public function __construct(Options $options)
     {
+        $this->options = $options;
     }
 
     /**
@@ -34,7 +42,7 @@ class Resource
         V::doValidate(
             V::keySet(
                 V::keyOptional('limit', V::intType()::notEmpty()::max(200)),
-                V::keyOptional('page_token', V::stringType()::notEmpty()),
+                V::keyOptional('page_token', V::stringType()::notEmpty())
             ),
             $queryParam
         );

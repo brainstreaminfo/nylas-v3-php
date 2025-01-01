@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Administration;
 
 use Nylas\Utilities\API;
 use Nylas\Utilities\Options;
-use Nylas\Utilities\Validator as V;
+use Nylas\Utilities\Validate as V;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
@@ -19,10 +19,12 @@ class Application
      *
      * @param Options $options
      */
-    public function __construct(private readonly Options $options)
-    {
-    }
+    private $options;
 
+    public function __construct(Options $options)
+    {
+        $this->options = $options;
+    }
     /**
      * Collect all Applications
      * @see https://developer.nylas.com/docs/api/v3/admin/#get-/v3/applications
@@ -137,7 +139,7 @@ class Application
             V::keySet(
                 V::key('url', V::url()::notEmpty()),
                 V::key('platform', V::in(API::$allowPlatforms)),
-                V::keyOptional('settings', Validation::callBackUrlSettingRules()),
+                V::keyOptional('settings', Validation::callBackUrlSettingRules())
             ),
             $params
         );

@@ -82,7 +82,7 @@ class EventsTest extends AbsCase
                     'calendar_id' => $this->faker->uuid,
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }
@@ -101,7 +101,7 @@ class EventsTest extends AbsCase
                 ],
                 self::createEventParams()
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }
@@ -180,7 +180,7 @@ class EventsTest extends AbsCase
                 ]
             );
 
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }
@@ -262,7 +262,7 @@ class EventsTest extends AbsCase
                     'calendar_id' => $calenderId,
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response['data']);
     }
@@ -285,7 +285,7 @@ class EventsTest extends AbsCase
                     'calendar_id' => $calenderId,
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }
@@ -310,7 +310,7 @@ class EventsTest extends AbsCase
                     'status' => 'yes',
                 ]
             );
-        } catch (GuzzleException) {}
+        } catch (GuzzleException $e) {}
 
         $this->assertNotEmpty($response);
     }

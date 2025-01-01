@@ -50,10 +50,10 @@ class AbsCase extends TestCase
         $options = [
             'debug'     => true,
             'log_file'  => __DIR__ . '/test.log',
-            'api_key'   => 'nyk_v0_i8y3G3J3pyLNdT4AMKmI3YG5umWJjEGAE5iTF86D1eOEVwQQE1U9376cH2LdVh4A',
-            'region'    => 'us',
-            'client_id' => '034ac449-bb4c-4780-aeff-4b3f1ef51e2d',
-            'grant_id'  => 'e9a4fbb5-6c11-4bbf-bad2-66b1fdce2f3e'
+            'api_key'   => 'NYLAS_API_KEY',
+            'region'    => 'NYLAS_REGION',
+            'client_id' => 'NYLAS_CLIENT_ID',
+            'grant_id'  => 'NYLAS_GRANT_ID',
         ];
 
         $this->client = new Client($options);

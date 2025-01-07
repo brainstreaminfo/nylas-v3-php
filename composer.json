@@ -25,10 +25,7 @@
     "autoload": {
         "psr-4": {
             "Nylas\\": "src/"
-        },
-        "files": [
-            "vendor/autoload.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

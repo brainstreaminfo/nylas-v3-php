@@ -40,9 +40,8 @@ trait Abs
      * call nylas apis with __get
      *
      * @param string $name
-     * @return object|mixed
      */
-    public function __get(string $name): object
+    public function __get(string $name)
     {
         return $this->callSubClass($name);
     }
@@ -51,9 +50,8 @@ trait Abs
      * call subclass
      *
      * @param string $name
-     * @return object|mixed
      */
-    private function callSubClass(string $name): object
+    private function callSubClass(string $name)
     {
         if (!empty($this->objects[$name])) {
             return $this->objects[$name];

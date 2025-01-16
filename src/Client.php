@@ -46,9 +46,8 @@ class Client
      *
      * @param string $name
      *
-     * @return object
      */
-    public function __get(string $name): object
+    public function __get(string $name)
     {
         return $this->callSubClass($name);
     }
@@ -58,9 +57,8 @@ class Client
      *
      * @param string $name
      *
-     * @return object
      */
-    private function callSubClass(string $name): object
+    private function callSubClass(string $name)
     {
         $name = ucfirst($name);
 

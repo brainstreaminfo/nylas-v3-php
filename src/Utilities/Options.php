@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Nylas\Utilities;
 
@@ -92,6 +92,17 @@ class Options
     }
 
     /**
+     * set grant id
+     *
+     * @param bool $grantId
+     * @return void
+     */
+    public function setGrantId(string $grantId): void
+    {
+        $this->grantId = $grantId;
+    }
+
+    /**
      * @return string
      */
     public function getGrantId(): string
@@ -162,8 +173,7 @@ class Options
      */
     public function setLogFile(mixed $logFile): void
     {
-        if ($logFile !== null)
-        {
+        if ($logFile !== null) {
             V::doValidate($this->getLogFileRule(), $logFile);
         }
 
@@ -243,12 +253,12 @@ class Options
     public function getAllOptions(): array
     {
         return
-        [
-            'debug'         => $this->debug,
-            'log_file'      => $this->logFile,
-            'api_key'       => $this->apiKey,
-            'client_id'     => $this->clientId,
-        ];
+            [
+                'debug'         => $this->debug,
+                'log_file'      => $this->logFile,
+                'api_key'       => $this->apiKey,
+                'client_id'     => $this->clientId,
+            ];
     }
 
     /**
